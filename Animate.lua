@@ -2,7 +2,10 @@ Animate = Class{}
 
 local anim8 = require 'anim8'
 
-local SPEED = 40
+local WALK_SPEED = 40
+local RUN_SPEED = 80
+
+local spriteState = "walk"
 
 function Animate:init(spriteSheet, frameX, frameY, duration)
     --initialise position and velocity
@@ -17,30 +20,48 @@ function Animate:init(spriteSheet, frameX, frameY, duration)
     grid = anim8.newGrid(frameX, frameY, spriteSheet:getWidth(), spriteSheet:getHeight())
 
     --create animations from frames on grid 
-    run = anim8.newAnimation(grid('1-7', 1), duration)
-    walk = anim8.newAnimation(grid('1-7', 2), duration)
-    
+    spriteActions = {
+        run = anim8.newAnimation(grid('1-7', 1), duration);
+        walk = anim8.newAnimation(grid('1-7', 2), duration);
+    }
+
 end
 
 
 function Animate:update(dt)
     
     if love.keyboard.isDown('right') then
-        self.dx = SPEED 
         if self.dir == 1 then
             self.dir = -1
         end
+        if love.keyboard.isDown('space') then
+            self.dx = RUN_SPEED * 1.5
+            spriteState = "run"    
+        else
+            self.dx = WALK_SPEED
+            spriteState = "walk"
+        end
+        
         camX = camX + dt * -self.dx 
-        walk:resume()
+        spriteActions[spriteState]:resume()
+    
     elseif love.keyboard.isDown('left') then
-        self.dx = -SPEED
         if self.dir == -1 then
            self.dir = 1
         end
+        
+        if love.keyboard.isDown('space') then
+            self.dx = -RUN_SPEED * 1.5
+            spriteState = "run"    
+        else
+            self.dx = -WALK_SPEED
+            spriteState = "walk"
+        end
+        
         camX = camX + dt * -self.dx 
-        walk:resume()
+        spriteActions[spriteState]:resume()
     else
-        walk:pause()
+        spriteActions[spriteState]:pause()
         self.dx = 0
     end
     
@@ -48,11 +69,11 @@ function Animate:update(dt)
     self.dt = dt
     self.x = self.x + self.dx * dt
 
-    walk:update(dt)
+    spriteActions[spriteState]:update(dt)
 end
 
 
 function Animate:render()
-    walk:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)
+    spriteActions[spriteState]:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)
 end
 
