@@ -35,7 +35,7 @@ function love.load()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-
+    love.keyboard.setKeyRepeat(false)
     -- app window title
     love.window.setTitle('Scratchpad')
     
@@ -66,11 +66,8 @@ end
 
 function love.keypressed(key)
     lastKey = key
-    if key ~= 'left' or 'right' then
-        keyTimer = 0
-    else
-        keyTimer = keyTimer + player.dt
-    end
+    keyTimer = 0
+    
 
     if key == 'escape' then
         love.event.quit()
@@ -79,6 +76,7 @@ end
 
 function love.update(dt)
     player:update(dt)
+    keyTimer = keyTimer + dt
      
     
     

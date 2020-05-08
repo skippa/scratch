@@ -34,8 +34,9 @@ function Animate:update(dt)
         if self.dir == 1 then
             self.dir = -1
         end
-        if love.keyboard.isDown('space') then
-            self.dx = RUN_SPEED * 1.5
+
+        if spriteState == "run" or (lastKey == "right" and keyTimer < 0.1) then
+            self.dx = RUN_SPEED
             spriteState = "run"    
         else
             self.dx = WALK_SPEED
@@ -61,6 +62,7 @@ function Animate:update(dt)
         camX = camX + dt * -self.dx 
         spriteActions[spriteState]:resume()
     else
+        spriteState = "walk"
         spriteActions[spriteState]:pause()
         self.dx = 0
     end
