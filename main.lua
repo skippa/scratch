@@ -39,6 +39,10 @@ function love.load()
     -- app window title
     love.window.setTitle('Scratchpad')
     
+    love.graphics.setFont(love.graphics.newFont('font.ttf', 8))
+   
+    love.graphics.setColor(1, 1, 1, 1)
+    
     math.randomseed(os.time())
 
     -- initialize our virtual resolution
@@ -66,8 +70,14 @@ end
 
 function love.keypressed(key)
     lastKey = key
+    lastKeyTime = keyTimer
     keyTimer = 0
     
+    if key == 'space' then
+        player.dy = -10
+    
+    end
+
 
     if key == 'escape' then
         love.event.quit()
@@ -77,8 +87,6 @@ end
 function love.update(dt)
     player:update(dt)
     keyTimer = keyTimer + dt
-     
-    
     
     love.keyboard.keysPressed = {}
 end
@@ -86,11 +94,18 @@ end
 
 function love.draw()
     push:start()
-        
+    
+    
     love.graphics.translate(camX, camY)
     love.graphics.clear(0.14, 0, 0.71)
     tile1:draw(tileSheet, 0, -16)
     tile1:draw(tileSheet, 256, -16)
+
+    love.graphics.printf(tostring(keyTimer), VIRTUAL_WIDTH/2, 200, 100)
+    love.graphics.printf(tostring(lastKeyTime), VIRTUAL_WIDTH/2, 208, 100)
+    love.graphics.printf(lastKey, VIRTUAL_WIDTH/2, 216, 100)
+    
+
 
     player:render()
     

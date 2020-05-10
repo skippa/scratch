@@ -3,9 +3,12 @@ Animate = Class{}
 local anim8 = require 'anim8'
 
 local WALK_SPEED = 40
-local RUN_SPEED = 80
+local RUN_SPEED = 120
+local GRAVITY = 30
+local JUMP_POWER = 20
 
 local spriteState = "walk"
+local keyThreshold = 0.3 --time between double keypresses
 
 function Animate:init(spriteSheet, frameX, frameY, duration)
     --initialise position and velocity
@@ -31,11 +34,12 @@ end
 function Animate:update(dt)
     
     if love.keyboard.isDown('right') then
-        if self.dir == 1 then
+        if self.dir == 1 then --if not going right, swap direction
             self.dir = -1
         end
 
-        if spriteState == "run" or (lastKey == "right" and keyTimer < 0.1) then
+        if spriteState == "run" or (lastKey == "right" and lastKeyTime < keyThreshold) then
+            --go into run state if 'right' key pressed twice in succession (< keyThreshold)
             self.dx = RUN_SPEED
             spriteState = "run"    
         else
@@ -50,15 +54,14 @@ function Animate:update(dt)
         if self.dir == -1 then
            self.dir = 1
         end
-        
-        if love.keyboard.isDown('space') then
-            self.dx = -RUN_SPEED * 1.5
+        if spriteState == "run" or (lastKey == "left" and lastKeyTime < keyThreshold) then
+            self.dx = -RUN_SPEED
             spriteState = "run"    
         else
             self.dx = -WALK_SPEED
             spriteState = "walk"
         end
-        
+
         camX = camX + dt * -self.dx 
         spriteActions[spriteState]:resume()
     else
@@ -66,10 +69,12 @@ function Animate:update(dt)
         spriteActions[spriteState]:pause()
         self.dx = 0
     end
-    
+   
 
     self.dt = dt
     self.x = self.x + self.dx * dt
+    self.dy = self.dy + GRAVITY * dt
+    self.y = math.min(self.y + self.dy, VIRTUAL_HEIGHT - 114)
 
     spriteActions[spriteState]:update(dt)
 end
@@ -77,5 +82,6 @@ end
 
 function Animate:render()
     spriteActions[spriteState]:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)
+    
 end
 
