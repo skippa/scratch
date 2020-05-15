@@ -61,6 +61,8 @@ function love.load()
     
     tile1 = anim8.newAnimation(tileGrid(1, 4), 1)
 
+    testTiles = Tiles(love.graphics.newImage('genTileset.png'), 16, 16)
+
     love.keyboard.keysPressed = {}
 end
 
@@ -97,7 +99,11 @@ function love.draw()
     
     
     love.graphics.translate(camX, camY)
-    love.graphics.clear(0.14, 0, 0.71)
+    
+    --render background and tiles
+    love.graphics.clear(0, 0, 0)
+    testTiles:render()
+
     tile1:draw(tileSheet, 0, -16)
     tile1:draw(tileSheet, 256, -16)
 
