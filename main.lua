@@ -55,13 +55,10 @@ function love.load()
 
     player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1)
     
-    tileSheet = love.graphics.newImage('sonic-tiles.png')
     
-    tileGrid = anim8.newGrid(256, 256, tileSheet:getWidth(), tileSheet:getHeight(), 0, 0, 5)
     
-    tile1 = anim8.newAnimation(tileGrid(1, 4), 1)
 
-    testTiles = Tiles(love.graphics.newImage('genTileset.png'), 16, 16)
+    mapTiles = Tiles(love.graphics.newImage('genTileset.png'), 16, 16)
 
     love.keyboard.keysPressed = {}
 end
@@ -102,14 +99,11 @@ function love.draw()
     
     --render background and tiles
     love.graphics.clear(0, 0, 0)
-    testTiles:render()
+    mapTiles:render()
 
-    tile1:draw(tileSheet, 0, -16)
-    tile1:draw(tileSheet, 256, -16)
-
-    love.graphics.printf(tostring(keyTimer), VIRTUAL_WIDTH/2, 200, 100)
-    love.graphics.printf(tostring(lastKeyTime), VIRTUAL_WIDTH/2, 208, 100)
-    love.graphics.printf(lastKey, VIRTUAL_WIDTH/2, 216, 100)
+    --love.graphics.printf(tostring(keyTimer), VIRTUAL_WIDTH/2, 200, 100)
+    --love.graphics.printf(tostring(lastKeyTime), VIRTUAL_WIDTH/2, 208, 100)
+    --love.graphics.printf(lastKey, VIRTUAL_WIDTH/2, 216, 100)
     
 
 
