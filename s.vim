@@ -87,11 +87,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 19 + 20) / 41)
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 147)
-exe '2resize ' . ((&lines * 19 + 20) / 41)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 147)
-exe '3resize ' . ((&lines * 19 + 20) / 41)
+exe '1resize ' . ((&lines * 23 + 24) / 49)
+exe 'vert 1resize ' . ((&columns * 88 + 77) / 155)
+exe '2resize ' . ((&lines * 23 + 24) / 49)
+exe 'vert 2resize ' . ((&columns * 66 + 77) / 155)
+exe '3resize ' . ((&lines * 23 + 24) / 49)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -218,11 +218,11 @@ set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 5 - ((4 * winheight(0) + 9) / 19)
+let s:l = 11 - ((10 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+11
 normal! 0
 wincmd w
 argglobal
@@ -352,7 +352,7 @@ set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 15 - ((13 * winheight(0) + 9) / 19)
+let s:l = 15 - ((14 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -486,23 +486,23 @@ set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 4 - ((1 * winheight(0) + 9) / 19)
+let s:l = 4 - ((1 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 4
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 19 + 20) / 41)
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 147)
-exe '2resize ' . ((&lines * 19 + 20) / 41)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 147)
-exe '3resize ' . ((&lines * 19 + 20) / 41)
+exe '1resize ' . ((&lines * 23 + 24) / 49)
+exe 'vert 1resize ' . ((&columns * 88 + 77) / 155)
+exe '2resize ' . ((&lines * 23 + 24) / 49)
+exe 'vert 2resize ' . ((&columns * 66 + 77) / 155)
+exe '3resize ' . ((&lines * 23 + 24) / 49)
 tabnext 1
-badd +15 Animate.lua
+badd +1 Tiles.lua
 badd +4 main.lua
+badd +15 Animate.lua
 badd +2 Animation.lua
-badd +0 Tiles.lua
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif
