@@ -17,11 +17,11 @@ local FLOATRIGHT = 51
 
 
 function Tiles:init(tileSheet, tileWidth, tileHeight)
-    mapHeight = VIRTUAL_HEIGHT / tileHeight
-    mapWidth = VIRTUAL_WIDTH / tileWidth * 3
+    mapHeight = 15
+    mapWidth = 100 
 
-    mapHeightPixels = mapHeight * tileHeight
-    mapWidthPixels = mapWidth * tileWidth
+    self.mapHeightPixels = mapHeight * tileHeight
+    self.mapWidthPixels = mapWidth * tileWidth
 
     self.tileSheet = tileSheet   
     self.tileHeight = tileHeight
@@ -42,47 +42,74 @@ function Tiles:init(tileSheet, tileWidth, tileHeight)
     r, sx, sy, ox, oy, kx, ky = 0
     
     --fill screen with sky tiles
-    for m = 1, mapWidth * mapHeight, 1 do
+    for m = 0, mapWidth * mapHeight, 1 do
         map[m] = SKYTILE
     end
 
+    groundHeight = mapHeight - 2
 
-    for m = mapWidth * 12 + 1, mapWidth * 13, 1 do
+    for m = mapWidth * groundHeight + 1, mapWidth * (groundHeight + 1), 1 do
         map[m] = GROUNDTILE
     end 
     
-    for m = mapWidth * 13 + 1, mapWidth * 14, 1 do
+    for m = mapWidth * (groundHeight + 1) + 1, mapWidth * (groundHeight + 2), 1 do
         map[m] = EARTHTILE
     end
-
-    --random platforms
-    platformX = math.random(1, mapWidth - 3)
-    platformY = mapHeight - 8
-    platformPos = (platformY * mapWidth) + platformX
-
-    map[platformPos] = FLOATLEFT
-    map[platformPos+1] = FLOATMIDDLE
-    map[platformPos+2] = FLOATRIGHT
     
-    m = 1
+
+    --random platform
+    for i = 1, 3, 1 do
+        platformX = math.random(1, mapWidth - 3)
+        platformY = mapHeight - 6
+        platformPos = (platformY * mapWidth) + platformX
+    
+        map[platformPos] = FLOATLEFT
+        map[platformPos+1] = FLOATMIDDLE
+        map[platformPos+2] = FLOATRIGHT
+    end
 
     --add map to spritebatch
+    m = 1
     for y = 1, mapHeight, 1 do
         for x = 1, mapWidth, 1 do
-            tileBatch:add(tiles[map[m]]:getFrameInfo(x * tileWidth, y * tileHeight, r, sx, sy, ox, oy, kx, ky))
+            tileBatch:add(tiles[map[m]]:getFrameInfo((x-1) * tileWidth, (y-1) * tileHeight, r, sx, sy, ox, oy, kx, ky))
             m = m + 1
         end
     end
+end
+
+function Tiles:getCurrentTile(x, y)
+    thisTileY = math.floor((y + player.frameY) / self.tileHeight) * mapWidth
+    thisTileX = math.floor(x / self.tileWidth)
+
+    return thisTileX + thisTileY
 
 end
 
-function Tiles:tileAt(x, y)
+function Tiles:isonGround(x, y)
+    thisTileY = math.floor((y + player.frameY) / self.tileHeight) * mapWidth
+    thisTileX = math.floor(x / self.tileWidth)
 
+    thisTile = thisTileX + thisTileY
+
+    thisTileType = map[thisTile]
+
+    --thisTile = map[720]
+
+    if thisTileType == FLOATLEFT or thisTileType == FLOATMIDDLE or thisTileType == FLOATRIGHT or thisTileType == GROUNDTILE then 
+        maxY = (thisTile / mapWidth * self.tileHeight) - player.frameY
+        return true
+    else
+        return false
+    end
 end
 
+function Tiles:getTileXY(thisTile)
+    y = math.floor(thisTile / mapWidth) * self.tileHeight
+    x = (thisTile - ((math.floor(thisTile / mapWidth) * mapWidth) - 1)) * self.tileWidth
+    return x, y
+end
 
 function Tiles:render()
     love.graphics.draw(tileBatch, 0, 0)
 end
-
-

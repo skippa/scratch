@@ -53,10 +53,7 @@ function love.load()
     })
 
 
-    player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1)
-    
-    
-    
+    player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1) 
 
     mapTiles = Tiles(love.graphics.newImage('genTileset.png'), 16, 16)
 
@@ -86,8 +83,7 @@ end
 function love.update(dt)
     player:update(dt)
     keyTimer = keyTimer + dt
-    
-    love.keyboard.keysPressed = {}
+
 end
 
 
@@ -98,17 +94,15 @@ function love.draw()
     love.graphics.translate(camX, camY)
     
     --render background and tiles
-    love.graphics.clear(0, 0, 0)
+    --love.graphics.clear(0, 0, 0)
     mapTiles:render()
 
-    --love.graphics.printf(tostring(keyTimer), VIRTUAL_WIDTH/2, 200, 100)
-    --love.graphics.printf(tostring(lastKeyTime), VIRTUAL_WIDTH/2, 208, 100)
-    --love.graphics.printf(lastKey, VIRTUAL_WIDTH/2, 216, 100)
-    
-
+    love.graphics.printf(tostring(mapTiles:getCurrentTile(player.x, player.y)), VIRTUAL_WIDTH/2, 210, 100)
+    love.graphics.printf("x " .. tostring(math.floor(player.x)), VIRTUAL_WIDTH/2, 216, 100)
+    love.graphics.printf("y " .. tostring(math.floor(player.y)), VIRTUAL_WIDTH/2, 222, 100)
+    love.graphics.printf("dy " .. tostring(math.floor(player.dy)), VIRTUAL_WIDTH/2, 228, 100)
 
     player:render()
-    
 
     push:finish()
 end

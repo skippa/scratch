@@ -13,7 +13,7 @@ local keyThreshold = 0.3 --time between double keypresses
 function Animate:init(spriteSheet, frameX, frameY, duration)
     --initialise position and velocity
     self.x = VIRTUAL_WIDTH / 2
-    self.y = VIRTUAL_HEIGHT - frameY - 16
+    self.y = VIRTUAL_HEIGHT - frameY - 32
     self.frameY = frameY
     self.dx = 0
     self.dy = 0
@@ -74,8 +74,17 @@ function Animate:update(dt)
 
     self.dt = dt
     self.x = self.x + self.dx * dt
-    self.dy = self.dy + GRAVITY * dt
-    self.y = math.min(self.y + self.dy, VIRTUAL_HEIGHT - self.frameY - 32 + 1)
+    thisTile = mapTiles:getCurrentTile(player.x, player.y)
+
+    thisTileX, thisTileY = mapTiles:getTileXY(thisTile) 
+
+    if mapTiles:isonGround(player.x, player.y)  then
+        self.y = math.min(self.y + self.dy, thisTileY)
+        dy = 0
+    else
+        self.dy = self.dy + GRAVITY * dt
+        self.y = self.y + self.dy
+    end
 
     spriteActions[spriteState]:update(dt)
 end
