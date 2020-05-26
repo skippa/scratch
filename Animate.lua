@@ -74,8 +74,8 @@ function Animate:update(dt)
 
     self.dt = dt
     self.x = self.x + self.dx * dt
+    
     thisTile = mapTiles:getCurrentTile(player.x, player.y)
-
     thisTileX, thisTileY = mapTiles:getTileXY(thisTile) 
 
     if mapTiles:isonGround(player.x, player.y)  then
