@@ -75,11 +75,14 @@ function Animate:update(dt)
     self.dt = dt
     self.x = self.x + self.dx * dt
     
-    thisTile = mapTiles:getCurrentTile(player.x, player.y)
-    thisTileX, thisTileY = mapTiles:getTileXY(thisTile) 
+    self.thisTile = mapTiles:getCurrentTile(self.x, self.y)
+   
+    self.thisTileX, self.thisTileY = mapTiles:getTileXY(self.thisTile)
 
-    if mapTiles:isonGround(player.x, player.y)  then
-        self.y = math.min(self.y + self.dy, thisTileY)
+    self.onGround = mapTiles:isonGround(self.x, self.y)
+
+    if self.onGround then
+        self.y = math.min(self.y + self.dy, self.thisTileY)
         dy = 0
     else
         self.dy = self.dy + GRAVITY * dt

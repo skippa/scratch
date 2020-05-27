@@ -2,6 +2,7 @@ Tiles = Class{}
 
 local anim8 = require 'anim8'
 
+
 --array for tiles from the tileSheet
 tiles = {}
 
@@ -79,11 +80,19 @@ function Tiles:init(tileSheet, tileWidth, tileHeight)
 end
 
 function Tiles:getCurrentTile(x, y)
-    thisTileY = math.floor((y + player.frameY) / self.tileHeight) * mapWidth
+    thisTileY = math.floor(y / self.tileHeight) * mapWidth
     thisTileX = math.floor(x / self.tileWidth)
 
-    return thisTileX + thisTileY
+    thisTile = thisTileX + thisTileY
 
+    return thisTile
+
+end
+
+function Tiles:getTileXY(thisTile)
+    y = math.floor(thisTile / mapWidth) * self.tileHeight
+    x = (thisTile - ((math.floor(thisTile / mapWidth) * mapWidth) - 1)) * self.tileWidth
+    return x, y
 end
 
 function Tiles:isonGround(x, y)
@@ -102,12 +111,6 @@ function Tiles:isonGround(x, y)
     else
         return false
     end
-end
-
-function Tiles:getTileXY(thisTile)
-    y = math.floor(thisTile / mapWidth) * self.tileHeight
-    x = (thisTile - ((math.floor(thisTile / mapWidth) * mapWidth) - 1)) * self.tileWidth
-    return x, y
 end
 
 function Tiles:render()

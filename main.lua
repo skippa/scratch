@@ -97,10 +97,11 @@ function love.draw()
     --love.graphics.clear(0, 0, 0)
     mapTiles:render()
 
-    love.graphics.printf(tostring(mapTiles:getCurrentTile(player.x, player.y)), VIRTUAL_WIDTH/2, 210, 100)
-    love.graphics.printf("x " .. tostring(math.floor(player.x)), VIRTUAL_WIDTH/2, 216, 100)
-    love.graphics.printf("y " .. tostring(math.floor(player.y)), VIRTUAL_WIDTH/2, 222, 100)
-    love.graphics.printf("dy " .. tostring(math.floor(player.dy)), VIRTUAL_WIDTH/2, 228, 100)
+    love.graphics.printf("tile" .. tostring(player.thisTile), VIRTUAL_WIDTH/2, 210, 100)
+    love.graphics.printf("ground" .. tostring(player.onGround), VIRTUAL_WIDTH/2, 216, 100)
+    love.graphics.printf("tileY " .. tostring(player.thisTileY), VIRTUAL_WIDTH/2, 222, 100)
+    love.graphics.printf("y " .. tostring(math.floor(player.y)), VIRTUAL_WIDTH/2, 228, 100)
+    love.graphics.printf("dy " .. tostring(math.floor(player.dy)), VIRTUAL_WIDTH/2, 234, 100)
 
     player:render()
 
