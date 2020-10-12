@@ -1,4 +1,4 @@
-Tiles = Class{}
+Tiles = class()
 
 local anim8 = require 'anim8'
 
@@ -50,7 +50,7 @@ function Tiles:init(tileSheet, tileWidth, tileHeight)
     groundHeight = mapHeight - 2
 
     for m = mapWidth * groundHeight + 1, mapWidth * (groundHeight + 1), 1 do
-        map[m] = GROUNDTILE
+        map[m] = GROUNDTILE 
     end 
     
     for m = mapWidth * (groundHeight + 1) + 1, mapWidth * (groundHeight + 2), 1 do
@@ -61,19 +61,34 @@ function Tiles:init(tileSheet, tileWidth, tileHeight)
     --random platform
     for i = 1, 3, 1 do
         platformX = math.random(1, mapWidth - 3)
-        platformY = mapHeight - 6
+        platformY = mapHeight - 7
         platformPos = (platformY * mapWidth) + platformX
     
         map[platformPos] = FLOATLEFT
         map[platformPos+1] = FLOATMIDDLE
         map[platformPos+2] = FLOATRIGHT
+    
+
+        platformX = platformX + 4
+        platformY = platformY - 5
+        platformPos = (platformY * mapWidth) + platformX
+        
+        map[platformPos] = FLOATLEFT
+        map[platformPos+1] = FLOATMIDDLE
+        map[platformPos+2] = FLOATRIGHT
     end
+
+    --higher platform
+
 
     --add map to spritebatch
     m = 1
     for y = 1, mapHeight, 1 do
         for x = 1, mapWidth, 1 do
             tileBatch:add(tiles[map[m]]:getFrameInfo((x-1) * tileWidth, (y-1) * tileHeight, r, sx, sy, ox, oy, kx, ky))
+            if map[m] ~= SKYTILE then
+                world:add("tile" .. m, (x) * tileWidth, (y-1) * tileHeight, tileHeight, tileWidth)
+            end
             m = m + 1
         end
     end

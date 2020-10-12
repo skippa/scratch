@@ -1,98 +1,101 @@
---[[
-Copyright (c) 2010-2013 Matthias Richter
+Class = {}
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+-- default (empty) constructor
+function Class:init(...) end
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+-- create a subclass
+function Class:extend(obj)
+	local obj = obj or {}
 
-Except as contained in this notice, the name(s) of the above copyright holders
-shall not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization.
+	local function copyTable(table, destination)
+		local table = table or {}
+		local result = destination or {}
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-]]--
+		for k, v in pairs(table) do
+			if not result[k] then
+				if type(v) == "table" and k ~= "__index" and k ~= "__newindex" then
+					result[k] = copyTable(v)
+				else
+					result[k] = v
+				end
+			end
+		end
 
-local function include_helper(to, from, seen)
-	if from == nil then
-		return to
-	elseif type(from) ~= 'table' then
-		return from
-	elseif seen[from] then
-		return seen[from]
+		return result
 	end
 
-	seen[from] = to
-	for k,v in pairs(from) do
-		k = include_helper({}, k, seen) -- keys might also be tables
-		if to[k] == nil then
-			to[k] = include_helper({}, v, seen)
+	copyTable(self, obj)
+
+	obj._ = obj._ or {}
+
+	local mt = {}
+
+	-- create new objects directly, like o = Object()
+	mt.__call = function(self, ...)
+		return self:new(...)
+	end
+
+	-- allow for getters and setters
+	mt.__index = function(table, key)
+		local val = rawget(table._, key)
+		if val and type(val) == "table" and (val.get ~= nil or val.value ~= nil) then
+			if val.get then
+				if type(val.get) == "function" then
+					return val.get(table, val.value)
+				else
+					return val.get
+				end
+			elseif val.value then
+				return val.value
+			end
+		else
+			return val
 		end
 	end
-	return to
-end
 
--- deeply copies `other' into `class'. keys in `other' that are already
--- defined in `class' are omitted
-local function include(class, other)
-	return include_helper(class, other, {})
-end
-
--- returns a deep copy of `other'
-local function clone(other)
-	return setmetatable(include({}, other), getmetatable(other))
-end
-
-local function new(class)
-	-- mixins
-	class = class or {}  -- class can be nil
-	local inc = class.__includes or {}
-	if getmetatable(inc) then inc = {inc} end
-
-	for _, other in ipairs(inc) do
-		if type(other) == "string" then
-			other = _G[other]
+	mt.__newindex = function(table, key, value)
+		local val = rawget(table._, key)
+		if val and type(val) == "table" and ((val.set ~= nil and val._ == nil) or val.value ~= nil) then
+			local v = value
+			if val.set then
+				if type(val.set) == "function" then
+					v = val.set(table, value, val.value)
+				else
+					v = val.set
+				end
+			end
+			val.value = v
+			if val and val.afterSet then val.afterSet(table, v) end
+		else
+			table._[key] = value
 		end
-		include(class, other)
 	end
 
-	-- class implementation
-	class.__index = class
-	class.init    = class.init    or class[1] or function() end
-	class.include = class.include or include
-	class.clone   = class.clone   or clone
+	setmetatable(obj, mt)
 
-	-- constructor call
-	return setmetatable(class, {__call = function(c, ...)
-		local o = setmetatable({}, c)
-		o:init(...)
-		return o
-	end})
+	return obj
 end
 
--- interface for cross class-system compatibility (see https://github.com/bartbes/Class-Commons).
-if class_commons ~= false and not common then
-	common = {}
-	function common.class(name, prototype, parent)
-		return new{__includes = {prototype, parent}}
-	end
-	function common.instance(class, ...)
-		return class(...)
+-- set properties outside the constructor or other functions
+function Class:set(prop, value)
+	if not value and type(prop) == "table" then
+		for k, v in pairs(prop) do
+			rawset(self._, k, v)
+		end
+	else
+		rawset(self._, prop, value)
 	end
 end
 
+-- create an instance of an object with constructor parameters
+function Class:new(...)
+	local obj = self:extend({})
+	if obj.init then obj:init(...) end
+	return obj
+end
 
--- the module
-return setmetatable({new = new, include = include, clone = clone},
-	{__call = function(_,...) return new(...) end})
+
+function class(attr)
+	attr = attr or {}
+	return Class:extend(attr)
+end

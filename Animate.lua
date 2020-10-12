@@ -1,4 +1,4 @@
-Animate = Class{}
+Animate = class()
 
 local anim8 = require 'anim8'
 
@@ -7,13 +7,13 @@ local RUN_SPEED = 120
 local GRAVITY = 30
 local JUMP_POWER = 20
 
-local spriteState = "walk"
+local spriteState = "idle"
 local keyThreshold = 0.3 --time between double keypresses
 
 function Animate:init(spriteSheet, frameX, frameY, duration)
     --initialise position and velocity
     self.x = VIRTUAL_WIDTH / 2
-    self.y = VIRTUAL_HEIGHT - frameY - 32
+    self.y = VIRTUAL_HEIGHT - frameY - 64
     self.frameY = frameY
     self.dx = 0
     self.dy = 0
@@ -21,14 +21,19 @@ function Animate:init(spriteSheet, frameX, frameY, duration)
     self.spriteSheet = spriteSheet
     self.spriteState = 'idle'
     --create spritesheet grid
-    grid = anim8.newGrid(frameX, frameY, spriteSheet:getWidth(), spriteSheet:getHeight())
+    runGrid = anim8.newGrid(frameX, frameY, spriteSheet:getWidth(), spriteSheet:getHeight())
+    walkGrid = anim8.newGrid(frameX, frameY, spriteSheet:getWidth(), spriteSheet:getHeight())
+    idleGrid = anim8.newGrid(frameX, frameY, spriteSheet:getWidth(), spriteSheet:getHeight())
 
     --create animations from frames on grid 
     spriteActions = {
-        run = anim8.newAnimation(grid('1-7', 1), duration);
-        walk = anim8.newAnimation(grid('1-7', 2), duration);
+        run = anim8.newAnimation(runGrid('1-7', 1), duration);
+        walk = anim8.newAnimation(walkGrid('1-7', 2), duration);
+        idle = anim8.newAnimation(idleGrid('1-6', 3), duration);
+
     }
 
+    world:add("player", self.x-15, self.y, frameX-15, frameY)
 end
 
 
@@ -66,8 +71,8 @@ function Animate:update(dt)
         camX = camX + dt * -self.dx 
         spriteActions[spriteState]:resume()
     else
-        spriteState = "walk"
-        spriteActions[spriteState]:pause()
+        spriteState = "idle"
+        spriteActions[spriteState]:resume()
         self.dx = 0
     end
    
@@ -75,25 +80,22 @@ function Animate:update(dt)
     self.dt = dt
     self.x = self.x + self.dx * dt
     
-    self.thisTile = mapTiles:getCurrentTile(self.x, self.y)
-   
-    self.thisTileX, self.thisTileY = mapTiles:getTileXY(self.thisTile)
-
-    self.onGround = mapTiles:isonGround(self.x, self.y)
-
-    if self.onGround then
-        self.y = math.min(self.y + self.dy, self.thisTileY)
-        dy = 0
-    else
-        self.dy = self.dy + GRAVITY * dt
-        self.y = self.y + self.dy
-    end
+    self.dy = self.dy + GRAVITY * dt
+    self.y = self.y + self.dy
 
     spriteActions[spriteState]:update(dt)
 end
 
 
 function Animate:render()
+    local actualX, actualY, cols, len = world:move("player", self.x, self.y)
+    self.x = actualX
+    self.y = actualY
+    if len > 0 then 
+        for i=1, len do 
+            love.graphics.printf(("Collision with %s."):format(cols[1].other), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
+        end
+    end 
     spriteActions[spriteState]:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)
     
 end

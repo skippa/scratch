@@ -1,8 +1,9 @@
+-- virtual resolution handling library local push = require 'push'
+local push = require 'push'
 
--- virtual resolution handling library
-push = require 'push'
+local bump = require 'bump'
 
-Class = require 'class'
+require 'class'
 
 local anim8 = require 'anim8'
 
@@ -10,11 +11,11 @@ require 'Animate'
 
 require 'Tiles'
 
+require 'Items'
 
 
 -- physical screen dimensions
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
 
 -- virtual resolution dimensions
 VIRTUAL_WIDTH = 320
@@ -25,6 +26,7 @@ local BACKGROUND_SCROLL_SPEED = 30
 local GROUND_SCROLL_SPEED = 60
 local BACKGROUND_LOOPING_POINT = 413
 local GROUND_Y = 30
+local isJumping = false
 
 camX = 0
 camY = 0
@@ -45,17 +47,24 @@ function love.load()
     
     math.randomseed(os.time())
 
-    -- initialize our virtual resolution
+   -- initialize our virtual resolution
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = true,
         resizable = false
     })
 
-
-    player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1) 
+    world = bump.newWorld(64)
 
     mapTiles = Tiles(love.graphics.newImage('genTileset.png'), 16, 16)
+    
+    player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1)
+
+    items = Items(love.graphics.newImage('coin.png'), 16, 16, 0.1)
+    
+    for i = 1, 10, 1 do  
+        items:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT / 2)
+    end
 
     love.keyboard.keysPressed = {}
 end
@@ -69,9 +78,11 @@ function love.keypressed(key)
     lastKeyTime = keyTimer
     keyTimer = 0
     
-    if key == 'space' then
+    if key == 'space' and not isJumping then
         player.dy = -10
-    
+        isJumping = true 
+    else
+        isJumping = false
     end
 
 
@@ -81,6 +92,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
+    items:update(dt)
     player:update(dt)
     keyTimer = keyTimer + dt
 
@@ -90,19 +102,15 @@ end
 function love.draw()
     push:start()
     
-    
+
     love.graphics.translate(camX, camY)
-    
     --render background and tiles
     --love.graphics.clear(0, 0, 0)
     mapTiles:render()
 
-    love.graphics.printf("tile" .. tostring(player.thisTile), VIRTUAL_WIDTH/2, 210, 100)
-    love.graphics.printf("ground" .. tostring(player.onGround), VIRTUAL_WIDTH/2, 216, 100)
-    love.graphics.printf("tileY " .. tostring(player.thisTileY), VIRTUAL_WIDTH/2, 222, 100)
-    love.graphics.printf("y " .. tostring(math.floor(player.y)), VIRTUAL_WIDTH/2, 228, 100)
-    love.graphics.printf("dy " .. tostring(math.floor(player.dy)), VIRTUAL_WIDTH/2, 234, 100)
+--    love.graphics.printf("tile" .. tostring(mapTiles.tileHeight), VIRTUAL_WIDTH/2, 210, 100)
 
+    items:render()
     player:render()
 
     push:finish()
