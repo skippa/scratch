@@ -33,6 +33,14 @@ camY = 0
 
 lastKey, keyTimer = 0, 0
 
+
+playerFilter = function(item, other)
+    if     other.isCoin       then return 'cross'
+    elseif other.isGround     then return 'slide'
+    else return 'slide'
+    end
+end
+
 function love.load()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -62,8 +70,8 @@ function love.load()
 
     items = Items(love.graphics.newImage('coin.png'), 16, 16, 0.1)
     
-    for i = 1, 10, 1 do  
-        items:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT / 2)
+    for i = 1, 100, 1 do  
+        items:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT - (16 * 5))
     end
 
     love.keyboard.keysPressed = {}

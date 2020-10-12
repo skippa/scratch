@@ -88,12 +88,16 @@ end
 
 
 function Animate:render()
-    local actualX, actualY, cols, len = world:move("player", self.x, self.y)
+    local actualX, actualY, cols, len = world:move("player", self.x, self.y, playerFilter)
     self.x = actualX
     self.y = actualY
     if len > 0 then 
         for i=1, len do 
-            love.graphics.printf(("Collision with %s."):format(cols[1].other), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
+            local other = cols[i].other 
+            love.graphics.printf(("Collision with %s."):format(other.name), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
+            if other.isCoin then
+               items:remove(other) 
+            end
         end
     end 
     spriteActions[spriteState]:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)

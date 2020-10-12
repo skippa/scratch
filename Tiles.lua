@@ -8,6 +8,7 @@ tiles = {}
 
 --array for map 
 map = {}
+platforms = {}
 
 local SKYTILE = 16
 local GROUNDTILE = 2
@@ -59,7 +60,7 @@ function Tiles:init(tileSheet, tileWidth, tileHeight)
     
 
     --random platform
-    for i = 1, 3, 1 do
+    for i = 1, 10, 1 do
         platformX = math.random(1, mapWidth - 3)
         platformY = mapHeight - 7
         platformPos = (platformY * mapWidth) + platformX

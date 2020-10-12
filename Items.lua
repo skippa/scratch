@@ -21,20 +21,27 @@ function Items:add(itemName, itemX, itemY)
         name = itemName,
         x = itemX,
         y = itemY, 
-        sprite = coin 
+        sprite = coin,
+        isCoin = true
     })
 
-    world:add(itemName, itemX, itemY, self.itemFrameX, self.itemFrameY)
+    world:add(items[#items], itemX, itemY, self.itemFrameX, self.itemFrameY)
 end
 
 
-function Items:remove(itemName)
-
+function Items:remove(item)
+    for i=1, #items do
+        if items[i] == item then
+            table.remove(items, i)
+        end
+    end
 end
 
 
 function Items:update(dt)
-    items[1].sprite:update(dt)
+   if #items > 0 then 
+        items[#items].sprite:update(dt)
+   end
 end
 
 
