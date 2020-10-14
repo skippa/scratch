@@ -1,9 +1,7 @@
 Animate = class()
 
-local anim8 = require 'anim8'
-
 local WALK_SPEED = 40
-local RUN_SPEED = 120
+local RUN_SPEED = 240
 local GRAVITY = 30
 local JUMP_POWER = 20
 
@@ -88,18 +86,22 @@ end
 
 
 function Animate:render()
-    local actualX, actualY, cols, len = world:move("player", self.x, self.y, playerFilter)
+    actualX, actualY, cols, len = world:move("player", self.x, self.y, playerFilter)
     self.x = actualX
     self.y = actualY
+    --love.graphics.push()
     if len > 0 then 
         for i=1, len do 
-            local other = cols[i].other 
-            love.graphics.printf(("Collision with %s."):format(other.name), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
+            local other = cols[i].other
+            --local thisItem = cols[i].sprite
+         --   love.graphics.printf(("Collision with %s."):format(other.name), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
             if other.isCoin then
-               items:remove(other) 
+                coinCount = coinCount + 1
+                --thisItem:remove(other) 
             end
         end
     end 
+    --love.graphics.pop() 
     spriteActions[spriteState]:draw(self.spriteSheet, self.x, self.y, 0, self.dir, 1, 18)
     
 end

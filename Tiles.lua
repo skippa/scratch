@@ -1,6 +1,6 @@
 Tiles = class()
 
-local anim8 = require 'anim8'
+--local anim8 = require 'anim8'
 
 
 --array for tiles from the tileSheet
@@ -8,6 +8,7 @@ tiles = {}
 
 --array for map 
 map = {}
+-- {type = SKYTILE, isGround = bool} 
 platforms = {}
 
 local SKYTILE = 16

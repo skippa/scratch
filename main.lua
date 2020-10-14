@@ -5,7 +5,7 @@ local bump = require 'bump'
 
 require 'class'
 
-local anim8 = require 'anim8'
+anim8 = require 'anim8'
 
 require 'Animate'
 
@@ -13,6 +13,7 @@ require 'Tiles'
 
 require 'Items'
 
+require 'HUD'
 
 -- physical screen dimensions
 local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
@@ -33,6 +34,9 @@ camY = 0
 
 lastKey, keyTimer = 0, 0
 
+coinCount = 0
+playerVitality = 10
+
 
 playerFilter = function(item, other)
     if     other.isCoin       then return 'cross'
@@ -49,7 +53,7 @@ function love.load()
     -- app window title
     love.window.setTitle('Scratchpad')
     
-    love.graphics.setFont(love.graphics.newFont('font.ttf', 8))
+    love.graphics.setFont(love.graphics.newFont('font.ttf', 16))
    
     love.graphics.setColor(1, 1, 1, 1)
     
@@ -68,11 +72,22 @@ function love.load()
     
     player = Animate(love.graphics.newImage('spritesheet.png'), 37, 52, 0.1)
 
-    items = Items(love.graphics.newImage('coin.png'), 16, 16, 0.1)
     
-    for i = 1, 100, 1 do  
-        items:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT - (16 * 5))
+    bluePotion = Items:new(love.graphics.newImage('blue-potion.png'), 18, 22, 0.3, 6)
+    --bluePotion2 = Items:new(love.graphics.newImage('blue-potion.png'), 18, 22, 0.3, 6)
+    --diamond = Items:new(love.graphics.newImage('blue-gem.png'), 16, 16, 0.3, 8)
+    coins = Items(love.graphics.newImage('coin.png'), 16, 16, 0.1, 7)
+    
+    hud = HUD()
+    
+    for i = 1, 5, 1 do
+    --    bluePotion:add("potion" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 16), VIRTUAL_HEIGHT / 2)
     end
+    
+    for i = 1, 20, 1 do  
+     --   coins:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT - (16 * 5))
+    end
+
 
     love.keyboard.keysPressed = {}
 end
@@ -100,7 +115,10 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    items:update(dt)
+    --bluePotion2:update(dt)
+    coins:update(dt)
+    --diamond:update(dt)
+    bluePotion:update(dt)
     player:update(dt)
     keyTimer = keyTimer + dt
 
@@ -109,17 +127,22 @@ end
 
 function love.draw()
     push:start()
-    
+    love.graphics.push()    
 
     love.graphics.translate(camX, camY)
     --render background and tiles
     --love.graphics.clear(0, 0, 0)
     mapTiles:render()
 
---    love.graphics.printf("tile" .. tostring(mapTiles.tileHeight), VIRTUAL_WIDTH/2, 210, 100)
 
-    items:render()
+    coins:render(VIRTUAL_WIDTH - 100, VIRTUAL_HEIGHT - 100)
+    --coins:render()
+    bluePotion:render(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2) 
+    --bluePotion2:render(VIRTUAL_WIDTH - 50, VIRTUAL_HEIGHT - 50)
+    --diamond:render(VIRTUAL_WIDTH - 150, VIRTUAL_HEIGHT - 150)
     player:render()
-
+    hud:render() 
+    --love.graphics.pop()
+    
     push:finish()
 end
