@@ -11,7 +11,7 @@ map = {}
 -- {type = SKYTILE, isGround = bool} 
 platforms = {}
 
-local SKYTILE = 16
+local SKYTILE = 15
 local GROUNDTILE = 2
 local EARTHTILE = 18
 local FLOATLEFT = 49

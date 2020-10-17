@@ -95,9 +95,12 @@ function Animate:render()
             local other = cols[i].other
             --local thisItem = cols[i].sprite
          --   love.graphics.printf(("Collision with %s."):format(other.name), VIRTUAL_WIDTH/2, 210 + (i * 16), 100)
-            if other.isCoin then
+            if other.itemType == "coin" then
                 coinCount = coinCount + 1
-                --thisItem:remove(other) 
+                coins:remove(other) 
+            elseif other.itemType == "potion" then
+                potionCount = potionCount + 1
+                bluePotion:remove(other)
             end
         end
     end 

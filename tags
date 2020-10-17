@@ -6,41 +6,18 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
-<Plug>(coc-codeaction)	s.vim	/^nnoremap <Plug>(coc-codeaction) :call       CocActionAsync('codeAction',         '')$/;"	m
-<Plug>(coc-codeaction-selected)	s.vim	/^vnoremap <Plug>(coc-codeaction-selected) :call       CocActionAsync('codeAction',         visu/;"	m
-<Plug>(coc-codelens-action)	s.vim	/^nnoremap <Plug>(coc-codelens-action) :call       CocActionAsync('codeLensAction')$/;"	m
-<Plug>(coc-command-repeat)	s.vim	/^nnoremap <Plug>(coc-command-repeat) :call       CocAction('repeatCommand')$/;"	m
-<Plug>(coc-cursors-position)	s.vim	/^nnoremap <silent> <Plug>(coc-cursors-position) :call coc#rpc#request('cursorsSelect', [bufnr('/;"	m
-<Plug>(coc-cursors-range)	s.vim	/^vnoremap <silent> <Plug>(coc-cursors-range) :call coc#rpc#request('cursorsSelect', [bufnr('%')/;"	m
-<Plug>(coc-cursors-word)	s.vim	/^nnoremap <silent> <Plug>(coc-cursors-word) :call coc#rpc#request('cursorsSelect', [bufnr('%'),/;"	m
-<Plug>(coc-declaration)	s.vim	/^nnoremap <Plug>(coc-declaration) :call       CocAction('jumpDeclaration')$/;"	m
-<Plug>(coc-definition)	s.vim	/^nnoremap <Plug>(coc-definition) :call       CocAction('jumpDefinition')$/;"	m
-<Plug>(coc-diagnostic-info)	s.vim	/^nnoremap <Plug>(coc-diagnostic-info) :call       CocActionAsync('diagnosticInfo')$/;"	m
-<Plug>(coc-diagnostic-next)	s.vim	/^nnoremap <Plug>(coc-diagnostic-next) :call       CocActionAsync('diagnosticNext')$/;"	m
-<Plug>(coc-diagnostic-next-error)	s.vim	/^nnoremap <Plug>(coc-diagnostic-next-error) :call       CocActionAsync('diagnosticNext',     'e/;"	m
-<Plug>(coc-diagnostic-prev)	s.vim	/^nnoremap <Plug>(coc-diagnostic-prev) :call       CocActionAsync('diagnosticPrevious')$/;"	m
-<Plug>(coc-diagnostic-prev-error)	s.vim	/^nnoremap <Plug>(coc-diagnostic-prev-error) :call       CocActionAsync('diagnosticPrevious', 'e/;"	m
-<Plug>(coc-fix-current)	s.vim	/^nnoremap <Plug>(coc-fix-current) :call       CocActionAsync('doQuickfix')$/;"	m
-<Plug>(coc-float-hide)	s.vim	/^nnoremap <Plug>(coc-float-hide) :call       coc#util#float_hide()$/;"	m
-<Plug>(coc-float-jump)	s.vim	/^nnoremap <Plug>(coc-float-jump) :call       coc#util#float_jump()$/;"	m
-<Plug>(coc-format)	s.vim	/^nnoremap <Plug>(coc-format) :call       CocActionAsync('format')$/;"	m
-<Plug>(coc-format-selected)	s.vim	/^vnoremap <Plug>(coc-format-selected) :call       CocActionAsync('formatSelected',     visualmo/;"	m
-<Plug>(coc-funcobj-a)	s.vim	/^onoremap <silent> <Plug>(coc-funcobj-a) :call coc#rpc#request('selectFunction', [v:false, ''])/;"	m
-<Plug>(coc-funcobj-a)	s.vim	/^vnoremap <silent> <Plug>(coc-funcobj-a) :call coc#rpc#request('selectFunction', [v:false, visu/;"	m
-<Plug>(coc-funcobj-i)	s.vim	/^onoremap <silent> <Plug>(coc-funcobj-i) :call coc#rpc#request('selectFunction', [v:true, ''])$/;"	m
-<Plug>(coc-funcobj-i)	s.vim	/^vnoremap <silent> <Plug>(coc-funcobj-i) :call coc#rpc#request('selectFunction', [v:true, visua/;"	m
-<Plug>(coc-implementation)	s.vim	/^nnoremap <Plug>(coc-implementation) :call       CocAction('jumpImplementation')$/;"	m
-<Plug>(coc-openlink)	s.vim	/^nnoremap <Plug>(coc-openlink) :call       CocActionAsync('openLink')$/;"	m
-<Plug>(coc-range-select)	s.vim	/^nnoremap <Plug>(coc-range-select) :call       CocAction('rangeSelect',     '', v:true)$/;"	m
-<Plug>(coc-range-select)	s.vim	/^vnoremap <Plug>(coc-range-select) :call       CocAction('rangeSelect',     visualmode(), v:tru/;"	m
-<Plug>(coc-range-select-backward)	s.vim	/^vnoremap <Plug>(coc-range-select-backward) :call       CocAction('rangeSelect',     visualmode/;"	m
-<Plug>(coc-refactor)	s.vim	/^nnoremap <Plug>(coc-refactor) :call       CocActionAsync('refactor')$/;"	m
-<Plug>(coc-references)	s.vim	/^nnoremap <Plug>(coc-references) :call       CocAction('jumpReferences')$/;"	m
-<Plug>(coc-rename)	s.vim	/^nnoremap <Plug>(coc-rename) :call       CocActionAsync('rename')$/;"	m
-<Plug>(coc-type-definition)	s.vim	/^nnoremap <Plug>(coc-type-definition) :call       CocAction('jumpTypeDefinition')$/;"	m
-<Plug>CocRefresh	s.vim	/^inoremap <silent> <Plug>CocRefresh =coc#_complete()$/;"	m
+,py	s.vim	/^nnoremap ,py :-1read $HOME\/.vim\/snippets\/pyheader.py$/;"	m
+,sh	s.vim	/^nnoremap ,sh :-1read $HOME\/.vim\/snippets\/bashheader.sh$/;"	m
+<Down>	s.vim	/^imap <Down> <Nop>$/;"	m
+<Down>	s.vim	/^map <Down> <Nop>$/;"	m
+<Left>	s.vim	/^imap <Left> <Nop>$/;"	m
+<Left>	s.vim	/^map <Left> <Nop>$/;"	m
 <Plug>NetrwBrowseX	s.vim	/^nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(netrw#GX(),netrw#CheckIfRemote(netrw#GX/;"	m
 <Plug>NetrwBrowseXVis	s.vim	/^vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()$/;"	m
+<Right>	s.vim	/^imap <Right> <Nop>$/;"	m
+<Right>	s.vim	/^map <Right> <Nop>$/;"	m
+<Up>	s.vim	/^imap <Up> <Nop>$/;"	m
+<Up>	s.vim	/^map <Up> <Nop>$/;"	m
 Animate:init	Animate.lua	/^function Animate:init(spriteSheet, frameX, frameY, duration)$/;"	f
 Animate:render	Animate.lua	/^function Animate:render()$/;"	f
 Animate:update	Animate.lua	/^function Animate:update(dt)$/;"	f
@@ -51,22 +28,24 @@ Animation:flipV	anim8.lua	/^function Animation:flipV()$/;"	f
 Animation:getDimensions	anim8.lua	/^function Animation:getDimensions()$/;"	f
 Animation:getFrameInfo	anim8.lua	/^function Animation:getFrameInfo(x, y, r, sx, sy, ox, oy, kx, ky)$/;"	f
 Animation:gotoFrame	anim8.lua	/^function Animation:gotoFrame(position)$/;"	f
-Animation:init	Animation.lua	/^function Animation:init(image, width, height, duration)$/;"	f
 Animation:pause	anim8.lua	/^function Animation:pause()$/;"	f
 Animation:pauseAtEnd	anim8.lua	/^function Animation:pauseAtEnd()$/;"	f
 Animation:pauseAtStart	anim8.lua	/^function Animation:pauseAtStart()$/;"	f
-Animation:render	Animation.lua	/^function Animation:render()$/;"	f
 Animation:resume	anim8.lua	/^function Animation:resume()$/;"	f
-Animation:update	Animation.lua	/^function Animation:update(dt)$/;"	f
 Animation:update	anim8.lua	/^function Animation:update(dt)$/;"	f
-Bird:init	Bird.lua	/^function Bird:init()$/;"	f
-Bird:render	Bird.lua	/^function Bird:render()$/;"	f
-Bird:update	Bird.lua	/^function Bird:update(dt)$/;"	f
 Class:extend	class.lua	/^function Class:extend(obj)$/;"	f
 Class:init	class.lua	/^function Class:init(...) end$/;"	f
 Class:new	class.lua	/^function Class:new(...)$/;"	f
 Class:set	class.lua	/^function Class:set(prop, value)$/;"	f
 Grid:getFrames	anim8.lua	/^function Grid:getFrames(...)$/;"	f
+HUD:init	HUD.lua	/^function HUD:init()$/;"	f
+HUD:render	HUD.lua	/^function HUD:render()$/;"	f
+HUD:update	HUD.lua	/^function HUD:update()$/;"	f
+Items:add	Items.lua	/^function Items:add(itemName, itemX, itemY)$/;"	f
+Items:init	Items.lua	/^function Items:init(itemSheet, itemFrameX, itemFrameY, itemDuration, itemFrames)$/;"	f
+Items:remove	Items.lua	/^function Items:remove(item)$/;"	f
+Items:render	Items.lua	/^function Items:render(x, y)$/;"	f
+Items:update	Items.lua	/^function Items:update(dt)$/;"	f
 SessionLoad	s.vim	/^let SessionLoad = 1$/;"	v
 Tiles:getCurrentTile	Tiles.lua	/^function Tiles:getCurrentTile(x, y)$/;"	f
 Tiles:getTileXY	Tiles.lua	/^function Tiles:getTileXY(thisTile)$/;"	f
@@ -91,8 +70,8 @@ World:remove	bump.lua	/^function World:remove(item)$/;"	f
 World:toCell	bump.lua	/^function World:toCell(x,y)$/;"	f
 World:toWorld	bump.lua	/^function World:toWorld(cx, cy)$/;"	f
 World:update	bump.lua	/^function World:update(item, x2,y2,w2,h2)$/;"	f
+\\g	s.vim	/^map \\g :wa!$/;"	m
 \\l	s.vim	/^map \\l :wa!$/;"	m
-\\n	s.vim	/^map \\n :NERDTreeToggle$/;"	m
 addItemToCell	bump.lua	/^local function addItemToCell(self, item, cx, cy)$/;"	f
 assertIsPositiveNumber	bump.lua	/^local function assertIsPositiveNumber(value, name)$/;"	f
 assertIsRect	bump.lua	/^local function assertIsRect(x,y,w,h)$/;"	f
@@ -135,6 +114,7 @@ nop	anim8.lua	/^local nop = function() end$/;"	f
 parseDurations	anim8.lua	/^local function parseDurations(durations, frameCount)$/;"	f
 parseInterval	anim8.lua	/^local function parseInterval(str)$/;"	f
 parseIntervals	anim8.lua	/^local function parseIntervals(durations)$/;"	f
+playerFilter	main.lua	/^playerFilter = function(item, other)$/;"	f
 push:addCanvas	push.lua	/^function push:addCanvas(params)$/;"	f
 push:apply	push.lua	/^function push:apply(operation, shader)$/;"	f
 push:applySettings	push.lua	/^function push:applySettings(settings)$/;"	f
@@ -165,9 +145,11 @@ rect_getSquareDistance	bump.lua	/^local function rect_getSquareDistance(x1,y1,w1
 rect_isIntersecting	bump.lua	/^local function rect_isIntersecting(x1,y1,w1,h1, x2,y2,w2,h2)$/;"	f
 removeItemFromCell	bump.lua	/^local function removeItemFromCell(self, item, cx, cy)$/;"	f
 s:cpo_save	s.vim	/^let s:cpo_save=&cpo$/;"	v
-s:l	s.vim	/^let s:l = 11 - ((10 * winheight(0) + 11) \/ 23)$/;"	v
-s:l	s.vim	/^let s:l = 15 - ((14 * winheight(0) + 11) \/ 23)$/;"	v
-s:l	s.vim	/^let s:l = 4 - ((1 * winheight(0) + 11) \/ 23)$/;"	v
+s:l	s.vim	/^let s:l = 1 - ((0 * winheight(0) + 28) \/ 56)$/;"	v
+s:l	s.vim	/^let s:l = 24 - ((23 * winheight(0) + 28) \/ 56)$/;"	v
+s:l	s.vim	/^let s:l = 26 - ((25 * winheight(0) + 28) \/ 56)$/;"	v
+s:l	s.vim	/^let s:l = 6 - ((5 * winheight(0) + 28) \/ 56)$/;"	v
+s:l	s.vim	/^let s:l = 8 - ((7 * winheight(0) + 28) \/ 56)$/;"	v
 s:so_save	s.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
 s:sx	s.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	s.vim	/^  let s:wipebuf = bufnr('%')$/;"	v

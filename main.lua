@@ -35,8 +35,8 @@ camY = 0
 lastKey, keyTimer = 0, 0
 
 coinCount = 0
-playerVitality = 10
-
+potionCount = 0
+playerVitality = 20
 
 playerFilter = function(item, other)
     if     other.isCoin       then return 'cross'
@@ -74,21 +74,22 @@ function love.load()
 
     
     bluePotion = Items:new(love.graphics.newImage('blue-potion.png'), 18, 22, 0.3, 6)
-    --bluePotion2 = Items:new(love.graphics.newImage('blue-potion.png'), 18, 22, 0.3, 6)
-    --diamond = Items:new(love.graphics.newImage('blue-gem.png'), 16, 16, 0.3, 8)
-    coins = Items(love.graphics.newImage('coin.png'), 16, 16, 0.1, 7)
-    
+    coins = Items(love.graphics.newImage('coin.png'), 16, 16, 0.2, 7)
+    chickens = Items(love.graphics.newImage('chicken.png'), 16, 16, 0.3, 5)
+    cheese = Items(love.graphics.newImage('cheese.png'), 16, 16, 0.3, 4)
     hud = HUD()
     
-    for i = 1, 5, 1 do
-    --    bluePotion:add("potion" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 16), VIRTUAL_HEIGHT / 2)
+    for i = 1, 3, 1 do
+        bluePotion:add("potion" .. tostring(i), "potion", (VIRTUAL_WIDTH / 2) + (i * 20), VIRTUAL_HEIGHT / 2)
     end
     
-    for i = 1, 20, 1 do  
-     --   coins:add("coin" .. tostring(i), (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT - (16 * 5))
+    for i = 1, 3, 1 do  
+       coins:add("coin" .. tostring(i), "coin", (VIRTUAL_WIDTH / 2) + (i * 32), VIRTUAL_HEIGHT - (16 * 5))
     end
 
-
+    chickens:add("chicken", "chicken", 20, VIRTUAL_HEIGHT - (16 * 3))
+    cheese:add("cheese", "cheese", 50, VIRTUAL_HEIGHT - (16 * 3))
+    
     love.keyboard.keysPressed = {}
 end
 
@@ -115,10 +116,10 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    --bluePotion2:update(dt)
     coins:update(dt)
-    --diamond:update(dt)
     bluePotion:update(dt)
+    chickens:update(dt)
+    cheese:update(dt)
     player:update(dt)
     keyTimer = keyTimer + dt
 
@@ -130,19 +131,14 @@ function love.draw()
     love.graphics.push()    
 
     love.graphics.translate(camX, camY)
-    --render background and tiles
-    --love.graphics.clear(0, 0, 0)
+    -- draw background 
     mapTiles:render()
-
-
-    coins:render(VIRTUAL_WIDTH - 100, VIRTUAL_HEIGHT - 100)
-    --coins:render()
-    bluePotion:render(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2) 
-    --bluePotion2:render(VIRTUAL_WIDTH - 50, VIRTUAL_HEIGHT - 50)
-    --diamond:render(VIRTUAL_WIDTH - 150, VIRTUAL_HEIGHT - 150)
+    coins:render()
+    bluePotion:render() 
+    chickens:render()
+    cheese:render()
     player:render()
     hud:render() 
-    --love.graphics.pop()
     
     push:finish()
 end
